@@ -1,0 +1,297 @@
+{
+  "name": "Resume Refiner AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "233a3b3e-6108-42f0-af6e-20ae8b38a90e",
+              "leftValue": "={{ $json['Resume (please use PDF)'].mimetype }}",
+              "rightValue": "application/pdf",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        272
+      ],
+      "id": "75fbcd74-c02b-4953-a161-1ca5e43f918d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Please submit your resume in the PDF format",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        224,
+        400
+      ],
+      "id": "97890a78-fc87-4efc-b36c-09d46d4371ff",
+      "name": "Form",
+      "webhookId": "97c7c6f9-c216-43b4-8698-9ab0abe24283"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"Actionable Suggestions\": [\n    \"string\"\n  ],\n  \"Useful Keywords from the Job Description\": [\n    \"string\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        992,
+        560
+      ],
+      "id": "b2b62c7c-0461-46c2-964b-890636052850",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "formTitle": "Resume Refiner AI Agent",
+        "formDescription": "Please submit your resume, the job description you’re targeting, and your email address so the AI Agent can suggest updates to your resume tailored to the specific position you're interested in.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Resume (please use PDF)",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".pdf",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Job URL",
+              "placeholder": "Please input the URL of the job",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Please input your email",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        272
+      ],
+      "id": "d7244c8c-ae5b-4ce8-b9e2-fa8c5a82eed0",
+      "name": "On form submission",
+      "webhookId": "6077bdcc-d45b-492d-9188-8bfc59ae39f3"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Resume__please_use_PDF_",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        336,
+        272
+      ],
+      "id": "a713a1d7-e0f3-4164-9cff-b78b040037c6",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('On form submission').item.json['Job URL'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        544,
+        272
+      ],
+      "id": "109ac50e-907a-40ad-98ce-adad8651a82f",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=// Description: \nYou are an Ultimate Resume Helper, helping job seekers tailor their uploaded resumes to a provided job URL. \n\n//Resume parsing\nTake a look at the uploaded resume: {{ $('Extract from File').item.json.text }} and extract users experience or previous role data from the uploaded resume. \n\n//Job responsibilities parsing\nYou will also get data from: \n1) HTTP Request {{ $json.data }} OR \n\n//Data parsing\nYou need to parse the data from the previous step and retrieve the job description/responsibilites/what you will do from the {{ $json.data }} section that user is providing on the form and create 5 suggestions of how the user can tailor their resumes to the job description from the URL as well as provide 5 keywords/phrases from the job description. \n\n//Suggestion tailoring\nAlso, tailor the suggestions and keywords with the data you parse from the resume itself to make sure the suggestions align with what the user has done before found in their resume.\n\n//Format\nFormat your response and provide only below for the response:\n\n**Actionable Suggestions:**\n\n1) Suggestion 1  \n2) Suggestion 2  \n3) Suggestion 3\n4) Suggestion 4\n5) Suggestion 5\n\n**Useful Keywords from the Job Description:**\n\n1) Keyword 1  \n2) Keyword 2  \n3) Keyword 3\n4) Keyword 4\n5) Keyword 5\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        272
+      ],
+      "id": "2aba80a8-b2cf-4ff4-93c7-490e6ec31b9e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        560
+      ],
+      "id": "fdabdb4b-9162-44a5-8600-99863f5211a8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "2SjJFFXSauDHNwgz",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "Your Recommendations",
+        "message": "=<p>\n<h1>Actionable Suggestions:</h1>\n</n>\n\n1) {{ $json.output['Actionable Suggestions'][0] }} <br>\n2) {{ $json.output['Actionable Suggestions'][1] }} <br>\n3) {{ $json.output['Actionable Suggestions'][2] }} <br>\n4) {{ $json.output['Actionable Suggestions'][3] }} <br>\n5) {{ $json.output['Actionable Suggestions'][4] }} <br>\n\n<p>\n<h1>Useful Keywords from the Job Description:</h1>\n</n>\n\n1) {{ $json.output['Useful Keywords from the Job Description'][0] }} <br>\n2) {{ $json.output['Useful Keywords from the Job Description'][1] }} <br>\n3) {{ $json.output['Useful Keywords from the Job Description'][2] }} <br>\n4) {{ $json.output['Useful Keywords from the Job Description'][3] }} <br>\n5) {{ $json.output['Useful Keywords from the Job Description'][4] }} <br>\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        272
+      ],
+      "id": "c80fe913-13c0-4214-94a6-381dd9a3fb59",
+      "name": "Send a message",
+      "webhookId": "2556e629-edb8-4ed3-8026-4ed4a336345e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "sE2tV3Xpr22ZLoqi",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ebd53b13-31c3-4726-8254-1509a5771db6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5b0f12092971a37ca7fbb1f15000c82078e2b14f15636e5fd4c2e9d2f7d16ffc"
+  },
+  "id": "ZenW6ru31M789U4z",
+  "tags": []
+}
