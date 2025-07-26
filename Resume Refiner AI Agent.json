@@ -44,8 +44,8 @@
       "type": "n8n-nodes-base.form",
       "typeVersion": 1,
       "position": [
-        224,
-        400
+        272,
+        480
       ],
       "id": "97890a78-fc87-4efc-b36c-09d46d4371ff",
       "name": "Form",
@@ -58,7 +58,7 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        992,
+        768,
         560
       ],
       "id": "b2b62c7c-0461-46c2-964b-890636052850",
@@ -95,7 +95,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        -112,
+        -64,
         272
       ],
       "id": "d7244c8c-ae5b-4ce8-b9e2-fa8c5a82eed0",
@@ -111,7 +111,7 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        336,
+        272,
         272
       ],
       "id": "a713a1d7-e0f3-4164-9cff-b78b040037c6",
@@ -125,7 +125,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        544,
+        432,
         272
       ],
       "id": "109ac50e-907a-40ad-98ce-adad8651a82f",
@@ -134,14 +134,14 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=// Description: \nYou are an Ultimate Resume Helper, helping job seekers tailor their uploaded resumes to a provided job URL. \n\n//Resume parsing\nTake a look at the uploaded resume: {{ $('Extract from File').item.json.text }} and extract users experience or previous role data from the uploaded resume. \n\n//Job responsibilities parsing\nYou will also get data from: \n1) HTTP Request {{ $json.data }} OR \n\n//Data parsing\nYou need to parse the data from the previous step and retrieve the job description/responsibilites/what you will do from the {{ $json.data }} section that user is providing on the form and create 5 suggestions of how the user can tailor their resumes to the job description from the URL as well as provide 5 keywords/phrases from the job description. \n\n//Suggestion tailoring\nAlso, tailor the suggestions and keywords with the data you parse from the resume itself to make sure the suggestions align with what the user has done before found in their resume.\n\n//Format\nFormat your response and provide only below for the response:\n\n**Actionable Suggestions:**\n\n1) Suggestion 1  \n2) Suggestion 2  \n3) Suggestion 3\n4) Suggestion 4\n5) Suggestion 5\n\n**Useful Keywords from the Job Description:**\n\n1) Keyword 1  \n2) Keyword 2  \n3) Keyword 3\n4) Keyword 4\n5) Keyword 5\n",
+        "text": "=// Description: \nYou are an Ultimate Resume Helper, helping job seekers tailor their uploaded resumes to a provided job URL. \n\n//Resume parsing\nTake a look at the uploaded resume: {{ $('Extract from File').item.json.text }} and extract users experience or previous role data from the uploaded resume. \n\n//Job responsibilities parsing\nYou will also get data from: \n1) HTTP Request {{ $json.data }} OR \n2) If the json.data is undefined then go the {{ $('On form submission').item.json['Job URL'] }} and retrieve the job description/job responbilities from the link. \n\n//Data parsing\nYou need to parse the data from the previous step (Job responsibilities parsing) and retrieve the job description/responsibilites/what you will do from either the {{ $json.data }} section or from the {{ $('On form submission').item.json['Job URL'] }} and create 5 suggestions of how the user can tailor their resumes to the job description from the URL as well as provide 5 keywords/phrases from the job description. \n\n//Suggestion tailoring\nFinally, tailor the suggestions and keywords with the data you parse from the resume itself to make sure the suggestions align with what the user has done before found in their resume.\n\n//Format\nFormat your response and provide only below for the response:\n\n**Actionable Suggestions:**\n\n1) Suggestion 1  \n2) Suggestion 2  \n3) Suggestion 3\n4) Suggestion 4\n5) Suggestion 5\n\n**Useful Keywords from the Job Description:**\n\n1) Keyword 1  \n2) Keyword 2  \n3) Keyword 3\n4) Keyword 4\n5) Keyword 5\n",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.1,
       "position": [
-        800,
+        576,
         272
       ],
       "id": "2aba80a8-b2cf-4ff4-93c7-490e6ec31b9e",
@@ -160,7 +160,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        800,
+        576,
         560
       ],
       "id": "fdabdb4b-9162-44a5-8600-99863f5211a8",
@@ -182,7 +182,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        1200,
+        912,
         272
       ],
       "id": "c80fe913-13c0-4214-94a6-381dd9a3fb59",
@@ -287,7 +287,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "ebd53b13-31c3-4726-8254-1509a5771db6",
+  "versionId": "d8e37fd1-4368-4b35-be4a-3db39f73470b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "5b0f12092971a37ca7fbb1f15000c82078e2b14f15636e5fd4c2e9d2f7d16ffc"
