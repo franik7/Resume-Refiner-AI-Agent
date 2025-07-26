@@ -57,7 +57,7 @@ I used the **Structured Output Parser** to enforce a consistent JSON structure f
 
 ### 🧠 Full n8n Workflow
 > Visual overview of the complete automation process from form submission to email delivery.
-![n8n Workflow](./assets/Flow.png)
+![n8n Workflow](./assets/Flow.jpg)
 
 ---
 
