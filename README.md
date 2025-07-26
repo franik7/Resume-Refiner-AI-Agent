@@ -53,18 +53,41 @@ I used the **Structured Output Parser** to enforce a consistent JSON structure f
 - Optimize the input/output format to reduce token count — making it more compatible with lighter models like GPT-3.5.  
 - Potential enhancements include multilingual support and tighter resume-job alignment scoring.
 
----
-
 ## 📸 Screenshots
 
-- n8n full agent workflow  
-- Configuration of the AI agent node  
-- Trigger and Gmail node settings  
-- Form input and output email examples
-
-> (Please embed your screenshots in the GitHub repo under `/assets/` and link them here.)
+### 🧠 Full n8n Workflow
+> Visual overview of the complete automation process from form submission to email delivery.
+![n8n Workflow](./assets/Flow.png)
 
 ---
+
+### ⚙️ AI Agent Node Configuration
+> Configuration of the AI Agent using OpenAI and Structured Output Parser to produce reliable JSON responses.
+![AI Agent Config](./assets/Ai%20Agent%20Config.png)
+
+---
+
+### 🧷 Trigger & Form Settings
+> The trigger node and form setup including field validation for `.pdf` resumes.
+![Trigger & Form](./assets/Trigger.png)
+
+---
+
+### 📝 User Form Input
+> Example of the form presented to users when submitting their resume and job link.
+![Form Input](./assets/Input.png)
+
+---
+
+### 📬 Email Output Example
+> The final email the user receives, containing actionable suggestions and keywords tailored to the job description.
+![Email Output](./assets/Email.png)
+
+---
+
+### 💬 Prompt Expression View
+> Expression panel showing how prompts are structured and interpreted by the AI Agent.
+![Prompt Expression](./assets/Output.png)
 
 ## 📨 Example Interaction
 
