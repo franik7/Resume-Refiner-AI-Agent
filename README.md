@@ -63,7 +63,7 @@ I used the **Structured Output Parser** to enforce a consistent JSON structure f
 
 ### ⚙️ AI Agent Node Configuration
 > Configuration of the AI Agent using OpenAI and Structured Output Parser to produce reliable JSON responses.
-![AI Agent Config](./assets/Ai%20Agent%20Config.jpg)
+![AI Agent Config](./assets/AI-Agent-Config.jpg)
 
 ---
 
