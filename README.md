@@ -63,31 +63,31 @@ I used the **Structured Output Parser** to enforce a consistent JSON structure f
 
 ### ⚙️ AI Agent Node Configuration
 > Configuration of the AI Agent using OpenAI and Structured Output Parser to produce reliable JSON responses.
-![AI Agent Config](./assets/Ai%20Agent%20Config.png)
+![AI Agent Config](./assets/Ai%20Agent%20Config.jpg)
 
 ---
 
 ### 🧷 Trigger & Form Settings
 > The trigger node and form setup including field validation for `.pdf` resumes.
-![Trigger & Form](./assets/Trigger.png)
+![Trigger & Form](./assets/Trigger.jpg)
 
 ---
 
 ### 📝 User Form Input
 > Example of the form presented to users when submitting their resume and job link.
-![Form Input](./assets/Input.png)
+![Form Input](./assets/Input.jpg)
 
 ---
 
 ### 📬 Email Output Example
 > The final email the user receives, containing actionable suggestions and keywords tailored to the job description.
-![Email Output](./assets/Email.png)
+![Email Output](./assets/Email.jpg)
 
 ---
 
 ### 💬 Prompt Expression View
 > Expression panel showing how prompts are structured and interpreted by the AI Agent.
-![Prompt Expression](./assets/Output.png)
+![Prompt Expression](./assets/Output.jpg)
 
 ## 📨 Example Interaction
 
